@@ -7,6 +7,7 @@ Ask the report agent questions using information from the configured knowledge b
 ```bash
 python main.py "When is business-class airfare allowed for an international trip?"
 ```
+<img width="1071" height="44" alt="image" src="https://github.com/user-attachments/assets/163cd104-c0cb-49aa-98d4-c48639724f0b" />
 
 ```bash
 python main.py "How many annual leave days do employees receive, and when should they request leave?"
