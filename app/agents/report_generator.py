@@ -1,12 +1,70 @@
 """Report agent and its internal knowledge-retrieval agent."""
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 from agents import Agent, function_tool
 
 from app.core.config import settings
+
+
+STOP_WORDS = frozenset(
+    {
+        "a",
+        "an",
+        "and",
+        "are",
+        "as",
+        "at",
+        "be",
+        "been",
+        "being",
+        "by",
+        "can",
+        "could",
+        "did",
+        "do",
+        "does",
+        "employee",
+        "employees",
+        "for",
+        "from",
+        "how",
+        "in",
+        "is",
+        "may",
+        "of",
+        "on",
+        "or",
+        "should",
+        "that",
+        "the",
+        "their",
+        "them",
+        "these",
+        "they",
+        "this",
+        "to",
+        "what",
+        "when",
+        "where",
+        "who",
+        "why",
+        "with",
+        "would",
+    }
+)
+
+
+def tokenize_search_text(text: str) -> set[str]:
+    """Return unique lowercase search terms without punctuation or stop words."""
+    return {
+        token
+        for token in re.findall(r"[a-z0-9]+", text.lower())
+        if token not in STOP_WORDS
+    }
 
 
 def load_prompt(prompt_path: Path) -> str:
@@ -30,18 +88,18 @@ def load_chunks() -> list[dict[str, Any]]:
         ]
 
 
-def search_knowledge_base(query: str, top_k: int = 3) -> str:
+def search_knowledge_base(query: str, top_k: int = 2) -> str:
     """
     Search the saved knowledge base using simple keyword matching.
     Returns relevant text chunks without generating an answer.
     """
     chunks = load_chunks()
-    query_terms = set(query.lower().split())
+    query_terms = tokenize_search_text(query)
     scored_chunks = []
 
     for chunk in chunks:
         chunk_text = str(chunk.get("text", ""))
-        chunk_terms = set(chunk_text.lower().split())
+        chunk_terms = tokenize_search_text(chunk_text)
         score = len(query_terms & chunk_terms)
 
         if score > 0:
