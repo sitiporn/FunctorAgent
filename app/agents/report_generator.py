@@ -8,54 +8,7 @@ from typing import Any
 from agents import Agent, function_tool
 
 from app.core.config import settings
-
-
-STOP_WORDS = frozenset(
-    {
-        "a",
-        "an",
-        "and",
-        "are",
-        "as",
-        "at",
-        "be",
-        "been",
-        "being",
-        "by",
-        "can",
-        "could",
-        "did",
-        "do",
-        "does",
-        "employee",
-        "employees",
-        "for",
-        "from",
-        "how",
-        "in",
-        "is",
-        "may",
-        "of",
-        "on",
-        "or",
-        "should",
-        "that",
-        "the",
-        "their",
-        "them",
-        "these",
-        "they",
-        "this",
-        "to",
-        "what",
-        "when",
-        "where",
-        "who",
-        "why",
-        "with",
-        "would",
-    }
-)
+from app.utils.stop_words import STOP_WORDS
 
 
 def tokenize_search_text(text: str) -> set[str]:
