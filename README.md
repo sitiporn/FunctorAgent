@@ -2,6 +2,34 @@
 
 Ask the report agent questions using information from the configured knowledge base.
 
+## Project Structure
+
+```text
+functor_agent/
+├── main.py                          # CLI entry point
+├── requirements.txt                 # Python dependencies
+├── README.md
+│   
+└── app/
+    ├── core/
+    │   └── config.py                # Settings from environment / .env
+    ├── data/
+    │   ├── knowledge_base.txt       # Source policy document
+    │   └── chunks.jsonl             # Generated searchable chunks
+    ├── ingestion/
+    │   ├── chunker.py               # Word-based chunking with overlap
+    │   └── document_ingestion.py    # Seed / refresh chunks.jsonl
+    ├── agents/
+    │   └── report_generator.py      # Retriever + report agents, KB search
+    ├── services/
+    │   └── agent_service.py         # OpenAI client and agent runner
+    └── utils/
+        ├── stop_words.py            # Tokens ignored during search
+        └── prompt_template/
+            ├── retriever_prompt.md
+            └── report_generator_prompt.md
+```
+
 ## Usage Examples
 
 ```bash
